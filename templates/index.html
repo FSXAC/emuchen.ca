@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to My Flask App</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jersey+10&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container text-center" style="max-width: 400px;">
+        <a href="/" class="undecorated">
+            <img src="{{ url_for('static', filename='images/me.png') }}" alt="Landing Image" class="img-fluid mt-2">
+            <strong class="mt-4">eMuchen.ca</strong>
+        </a>
+        <p class="lead">Ever seen a beaver juggle marshmallows while reciting Shakespeare? Neither have I. But hey, you’re here now—so buckle up, reality might get a little wobbly.</p>
+        <!-- <a href="/lunch" class="btn btn-primary mt-3">Go to Lunch App</a> -->
+    </div>
+
+    <div class="container text-center" style="max-width: 400px; margin-top: 50px;">
+        <div class="my-5"></div>
+        <ul class="emuchen-menu">
+            <li class="menu-muchen-ca"><a href="https://muchen.ca">muchen.ca</a></li>
+            <li class="menu-lunch"><a href="/lunch">lunch</a></li>
+        </ul>
+    </div>
+</body>
+</html>
