@@ -20,6 +20,9 @@ const MIN_NOTES_ON_SCREEN = 3; // minimum number of notes to display
 // GLOBAL VARIABLES
 let lunch_places = {};
 let lunch_places_note_list = [];
+
+let selected_places = [];
+
 let thinking_3d_emoji_gif;
 
 // Flag to indicate if we're capping the number of notes to max
@@ -136,10 +139,33 @@ class Note {
                 this.selected = false;
                 this.domElement.removeClass('selected');
                 console.log(`Deselected note: ${this.name}`);
+
+                // Remove from selected places
+                selected_places = selected_places.filter(place => place !== this.name);
+                console.log(`Remaining selected places: ${selected_places.join(', ')}`);
+
+
             } else {
                 this.selected = true;
                 this.domElement.addClass('selected');
+
                 console.log(`Selected note: ${this.name}`);
+                selected_places.push(this.name);
+            }
+
+            if (selected_places.length >= 1) {
+                // remove the disabled class from #uncheck-all
+                select('#uncheck-all').removeClass('disabled');
+                select('#submit').removeClass('disabled');
+            } else {
+                // add the disabled class to #uncheck-all
+                select('#uncheck-all').addClass('disabled');
+                select('#submit').addClass('disabled');
+            }
+
+            if (selected_places.length == lunch_places_note_list.length) {
+                // remove the disabled class from #check-all
+                select('#check-all').addClass('disabled');
             }
         });
     }
@@ -204,6 +230,15 @@ class Note {
         // Set scale transform based on distance
         let scaleTransform = `scale(${Math.pow(scale, 0.35)})`; // Adjust scale for better visibility
         this.domElement.style('transform', scaleTransform);
+    }
+
+    setSelected(selected) {
+        this.selected = selected;
+        if (selected) {
+            this.domElement.addClass('selected');
+        } else {
+            this.domElement.removeClass('selected');
+        }
     }
 }
 
@@ -273,6 +308,15 @@ function createNotesFromKeys(keys) {
             index,
             keys.length
         );
+
+        // Check if the note is selected
+        if (selected_places.includes(new_note.name)) {
+            new_note.setSelected(true);
+        } else {
+            new_note.setSelected(false);
+        }
+
+        // Add the new note to the lunch_places_note_list
         lunch_places_note_list.push(new_note);
     });
 }
