@@ -52,7 +52,8 @@ class Note {
         // Fibonacci sphere distribution
         // Map index i to y coordinate: from -1 to 1
         let y_margin = 0.05; // margin to avoid too close to poles
-        let y = map(index, 0, total - 1, 1 - y_margin, -1 + y_margin);
+        // let y = map(index, 0, total - 1, 1 - y_margin, -1 + y_margin);
+        let y = map(index, 0, total - 1, 0.95, -0.9);
         let radius = Math.sqrt(1 - y * y);
         let theta = goldenAngle * index;
         let x0 = Math.cos(theta) * radius;
@@ -206,6 +207,55 @@ class Note {
     }
 }
 
+class EmojiParticle {
+    constructor() {
+        // Randomly select a food emoji
+        this.emoji = random(['🍕', '🍔', '🌮', '🍣', '🥗', '🍜', '🍩', '🍦']);
+        this.size = random(20, 40); // Random size for the emoji
+        
+        // Start outside the canvas
+        this.x = random(-100, width + 100);
+        this.y = random(-100, height + 100);
+
+        // Start with zero velocity
+        this.vx = 0;
+        this.vy = 0;
+    }
+
+    update() {
+        // Pull the emoji towards the center of the canvas
+        let centerX = width / 2;
+        let centerY = height / 2;
+        
+        let dx = centerX - this.x;
+        let dy = centerY - this.y;
+        let distance = dist(this.x, this.y, centerX, centerY);
+        let force = 0.05; // Adjust this value to control the pull strength
+
+        // Update velocity based on distance to center
+        this.vx += dx * force / distance;
+        this.vy += dy * force / distance;
+
+        // Apply some damping to the velocity
+        this.vx *= 0.95; // Damping factor
+        this.vy *= 0.95;
+
+        // Update position based on velocity
+        this.x += this.vx;
+        this.y += this.vy;
+        
+        // if is at the center, reset position to outside the canvas
+        if (distance < 10) {
+            this.x = random(-100, width + 100);
+            this.y = random(-100, height + 100);
+            this.vx = 0;
+            this.vy = 0;
+        }
+    }
+}
+
+let emojiParticles = [];
+
 // Add the helper function to create notes from given keys
 function createNotesFromKeys(keys) {
     // Remove old note DOM elements
@@ -298,6 +348,11 @@ function setup() {
         // Replace manual note creation with helper call
         createNotesFromKeys(lunch_places_filtered);
     });
+
+    // Initialize emoji particles
+    // for (let i = 0; i < 12; i++) {
+    //     emojiParticles.push(new EmojiParticle());
+    // }
 }
 
 function gotData(data) {
@@ -352,6 +407,15 @@ function draw() {
     if (there_is_more_places) {
         // do nothing for now
     }
+
+    // Update and draw emoji particles
+    // for (let particle of emojiParticles) {
+    //     particle.update();
+    //     textSize(particle.size);
+    //     textAlign(CENTER, CENTER);
+    //     fill(0, 100); // semi-transparent black
+    //     text(particle.emoji, particle.x, particle.y);
+    // }
 }
 
 // on window resize, adjust the canvas size
