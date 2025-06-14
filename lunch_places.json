@@ -43,7 +43,7 @@
     },
     {
         "name": "Tonton Sushi",
-        "image": "img/lunch/places/default.jpg",
+        "image": "img/lunch/places/tonton_sushi.jpg",
         "description": "Japanese sushi and sashimi and korean dishes",
         "tags": ["sushi", "sashimi", "japanese", "korean"],
         "dollarRange": "$$"
@@ -74,6 +74,27 @@
         "image": "img/lunch/places/oz_chicken.jpg",
         "description": "kroean fried chicken",
         "tags": ["fried chicken", "korean", "spicy"],
+        "dollarRange": "$$"
+    },
+    {
+        "name": "IKEA",
+        "image": "img/lunch/places/ikea.jpg",
+        "description": "Swedish meatballs and more",
+        "tags": ["meatballs", "fish and chips", "swedish"],
+        "dollarRange": "$"
+    },
+    {
+        "name": "Hokkaido Ramen Santouka",
+        "image": "img/lunch/places/hokkaido_ramen_santouka.jpg",
+        "description": "Japanese ramen with a rich broth",
+        "tags": ["ramen", "japanese", "noodles"],
+        "dollarRange": "$$"
+    },
+    {
+        "name": "Big Way Hot Pot",
+        "image": "img/lunch/places/big_way_hot_pot.jpg",
+        "description": "Chinese hot pot restaurant",
+        "tags": ["hot pot", "chinese", "soup"],
         "dollarRange": "$$"
     }
 ]

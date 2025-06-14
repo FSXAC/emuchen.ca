@@ -14,7 +14,7 @@ const NOTE_WIDTH = 180; // width of each note
 const NOTE_HEIGHT = 180; // height of each note
 
 // GLOBAL PROPERTIES
-const MAX_NOTES_ON_SCREEN = 12;
+const MAX_NOTES_ON_SCREEN = 9;
 
 // GLOBAL VARIABLES
 let lunch_places = {};
@@ -31,12 +31,13 @@ let draw_line = true;
 let do_randomize = true;
 
 class Note {
-    constructor(name, description, image_src, dollarRange, index, total) {
+    constructor(name, description, image_src, dollarRange, tags, index, total) {
         this.name = name;
         this.description = description;
         this.image_src = image_src
         
         this.dollarRange = dollarRange; // e.g. "$$" or "$$$"
+        this.tags = tags; // array of tags, e.g. ["vegan", "outdoor seating"]
 
         this.selected = false;
         
@@ -76,6 +77,14 @@ class Note {
         this.domElement = createDiv(this.name);
         this.domElement.addClass('note-container');
 
+        // Construct description text
+        let descText = this.description || 'No description available.';
+        
+        // Add tags to the description
+        if (this.tags && this.tags.length > 0) {
+            descText += `<br><small>${this.tags.join(', ')}</small>`;
+        }
+
         // Set inner HTML with a template
         this.domElement.html(`
             <div class="note" style="width: ${NOTE_WIDTH}px; height: ${NOTE_HEIGHT}px;">
@@ -83,7 +92,7 @@ class Note {
                 <br>
                 <span class="note-dollar-range">${this.dollarRange}</span>
                 <p class="note-title"><span class="scrolling-text">${this.name}</span></p>
-                <p class="note-desc">${this.description}</p>
+                <p class="note-desc">${descText}</p>
                 <s></s>
             </div>
             <div class="grid"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
@@ -96,20 +105,20 @@ class Note {
         
         // When creating a new card title
         // If the title is too long, add a marquee effect
-        let containerWidth = this.domElement.elt.clientWidth;
+        let containerWidth = this.domElement.elt.querySelector('.note').offsetWidth;
         let spanElement = this.domElement.elt.querySelector('.note-title .scrolling-text');
         let titleWidth = spanElement.offsetWidth;
+        console.log(`Container width: ${containerWidth}`, `Title width: ${titleWidth}`);
 
         if (titleWidth > containerWidth) {
 
             // FIXME: idk why -80 is needed, but it works
-            const distance = titleWidth - containerWidth - 80;
+            console.log(`Title "${this.name}" is too long, applying marquee effect.`);
+            const distance = (titleWidth - containerWidth) * 0.5;
             spanElement.style.setProperty('--scroll-distance', `${distance}px`);
 
             // Adjust speed if needed (larger denominator = faster speed)
-            const duration = distance / 30;
-
-            spanElement.style.animation = `marquee ${duration}s linear infinite alternate`;
+            spanElement.style.animation = `marquee 2.5s linear infinite alternate`;
         } else {
             // If the title fits, remove the marquee animation
             spanElement.style.animation = 'none';
@@ -238,6 +247,7 @@ function gotData(data) {
             place_data.description,
             place_data.image,
             place_data.dollarRange,
+            place_data.tags,
             i,
             keys.length
         );
