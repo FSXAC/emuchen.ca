@@ -429,6 +429,14 @@ function setup() {
 
     // Add event listener for the "Submit" button
     select('#submit').mousePressed(() => {
+        const today = new Date().toDateString();
+        if (localStorage.getItem('lunch_voted_date') === today) {
+            console.warn('User has already voted today.');
+
+            alert('You have already voted today. Please come back tomorrow!');
+            return;
+        }
+        
         if (selected_places.length > 0) {
             // Send the selected places to the server
             console.log(`Submitting selected places: ${selected_places.join(', ')}`);
@@ -442,15 +450,18 @@ function setup() {
             .then(response => response.json())
             .then(data => {
                 console.log('Submission successful:', data);
-                // Optionally, you can reset the selection or show a success message
+                // Mark user as voted today
+                localStorage.setItem('lunch_voted_date', today);
             })
             .catch(error => {
                 console.error('Error submitting places:', error);
             });
 
             // Reset the selection
-            // TODO: does this need to be done here?
             uncheckAllHelperFunction();
+
+            // Add a squishy bounce effect to the thinking emoji GIF
+            thinking_3d_emoji_gif.addClass('squish');
         } else {
             console.warn('No places selected to submit.');
         }
