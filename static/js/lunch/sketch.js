@@ -17,6 +17,9 @@ const NOTE_HEIGHT = 180; // height of each note
 const MAX_NOTES_ON_SCREEN = 9;
 const MIN_NOTES_ON_SCREEN = 3; // minimum number of notes to display
 
+// override localStorage for testing
+const OVERRIDE_ALREADY_VOTED = false;
+
 // GLOBAL VARIABLES
 let lunch_places = {};
 let lunch_places_note_list = [];
@@ -348,9 +351,11 @@ function setup() {
         thinking_3d_emoji_gif.removeClass('squish');
     });
     
-    // attach event handler for search box input tag
+    // attach event handler for search box input tag with debounce
     search_box = select('#search-box');
-    search_box.input(() => {
+    
+    // Create debounced search function
+    const debouncedSearch = debounce(() => {
         let search_term = search_box.value().toLowerCase();
         console.log(`Searching for: ${search_term}`);
 
@@ -369,10 +374,13 @@ function setup() {
             let all_keys = Object.keys(lunch_places);
             // Shuffle the keys to get random places
             all_keys = all_keys.sort(() => Math.random() - 0.5);
+
             // Add more until we reach the minimum
-            for (let i = 0; i <= MIN_NOTES_ON_SCREEN - lunch_places_filtered.length; i++) {
-                if (i < all_keys.length) {
-                    lunch_places_filtered.push(all_keys[i]);
+            let num_to_add = MIN_NOTES_ON_SCREEN - lunch_places_filtered.length;
+            for (let i = 0; i < num_to_add && i < all_keys.length; i++) {
+                let key = all_keys[i];
+                if (!lunch_places_filtered.includes(key)) {
+                    lunch_places_filtered.push(key);
                 }
             }
         }
@@ -394,7 +402,10 @@ function setup() {
 
         // Replace manual note creation with helper call
         createNotesFromKeys(lunch_places_filtered);
-    });
+    }, 500); // 500ms debounce delay
+    
+    // Attach the debounced function to the input event
+    search_box.input(debouncedSearch);
 
     // Initialize emoji particles
     // for (let i = 0; i < 12; i++) {
@@ -429,12 +440,15 @@ function setup() {
 
     // Add event listener for the "Submit" button
     select('#submit').mousePressed(() => {
-        const today = new Date().toDateString();
-        if (localStorage.getItem('lunch_voted_date') === today) {
-            console.warn('User has already voted today.');
 
-            alert('You have already voted today. Please come back tomorrow!');
-            return;
+        if (!OVERRIDE_ALREADY_VOTED) {
+            const today = new Date().toDateString();
+            if (localStorage.getItem('lunch_voted_date') === today) {
+                console.warn('User has already voted today.');
+
+                alert('You have already voted today. Please come back tomorrow!');
+                return;
+            }
         }
         
         if (selected_places.length > 0) {
@@ -466,6 +480,19 @@ function setup() {
             console.warn('No places selected to submit.');
         }
     });
+}
+
+// Debounce function to limit how often a function is called
+function debounce(func, wait) {
+    let timeout;
+    return function() {
+        const context = this;
+        const args = arguments;
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            func.apply(context, args);
+        }, wait);
+    };
 }
 
 function gotData(data) {
