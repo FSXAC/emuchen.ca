@@ -16,5 +16,14 @@ def lunch_app():
 def page_not_found(e):
     return render_template('404.html'), 404
 
+# Lunch app GET/POST routes
+# A list of all lunch places (loads from a json file)
+@app.route('/lunch/places', methods=['GET'])
+def lunch_places():
+    with open('lunch_places.json', 'r') as file:
+        places = file.read()
+    return places, 200, {'Content-Type': 'application/json'}
+
+
 if __name__ == '__main__':
     app.run(debug=True)
