@@ -1,6 +1,6 @@
 // APP Knobs
 // Orbit animation speed
-const ORBIT_ANIMATION_SPEED = 0.0;
+const ORBIT_ANIMATION_SPEED = 0.2;
 
 // radius of the orbit sphere
 const ORBIT_RADIUS = 240;
@@ -71,19 +71,24 @@ class Note {
         
         // Create the DOM element (initially placed at 0,0; will update in draw)
         this.domElement = createDiv(this.name);
-        this.domElement.addClass('note');
-
-        // Set size to all the same
-        this.domElement.size(NOTE_WIDTH, NOTE_HEIGHT);
+        this.domElement.addClass('note-container');
 
         // Set inner HTML with a template
         this.domElement.html(`
-            <div class="note-image" style="background-image: url('/static/${this.image_src}')"></div>
-            <br>
-            <span class="note-dollar-range">${this.dollarRange}</span>
-            <p class="note-title"><span class="scrolling-text">${this.name}</span></p>
-            <p class="note-desc">${this.description}</p>
+            <div class="note" style="width: ${NOTE_WIDTH}px; height: ${NOTE_HEIGHT}px;">
+                <div class="note-image" style="background-image: url('/static/${this.image_src}')"></div>
+                <br>
+                <span class="note-dollar-range">${this.dollarRange}</span>
+                <p class="note-title"><span class="scrolling-text">${this.name}</span></p>
+                <p class="note-desc">${this.description}</p>
+                <s></s>
+            </div>
+            <div class="grid"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+            </div>
         `);
+
+        // Set size to all the same
+        // this.domElement.size(NOTE_WIDTH, NOTE_HEIGHT);
 
         
         // When creating a new card title
@@ -109,13 +114,15 @@ class Note {
         
         // Add a click event to the note
         this.domElement.mousePressed(() => {
-            console.log(`Clicked on note: ${this.name}`);
+            // Add class to highlight the selected note
             if (this.selected) {
-                this.domElement.style('background-color', '#f0f0f0');
                 this.selected = false;
+                this.domElement.removeClass('selected');
+                console.log(`Deselected note: ${this.name}`);
             } else {
-                this.domElement.style('background-color', '#d0e0f0');
                 this.selected = true;
+                this.domElement.addClass('selected');
+                console.log(`Selected note: ${this.name}`);
             }
         });
     }
