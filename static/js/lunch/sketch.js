@@ -1,6 +1,6 @@
 // APP Knobs
 // Orbit animation speed
-const ORBIT_ANIMATION_SPEED = 0.001;
+const ORBIT_ANIMATION_SPEED = 0.0;
 
 // radius of the orbit sphere
 const ORBIT_RADIUS = 240;
@@ -28,10 +28,12 @@ let there_is_more_places = false;
 let draw_line = false;
 
 class Note {
-    constructor(name, description, image_src, index, total) {
+    constructor(name, description, image_src, dollarRange, index, total) {
         this.name = name;
         this.description = description;
         this.image_src = image_src
+        
+        this.dollarRange = dollarRange; // e.g. "$$" or "$$$"
 
         this.selected = false;
         
@@ -78,8 +80,9 @@ class Note {
         this.domElement.html(`
             <div class="note-image" style="background-image: url('/static/${this.image_src}')"></div>
             <br>
+            <span class="note-dollar-range">${this.dollarRange}</span>
             <p class="note-title"><span class="scrolling-text">${this.name}</span></p>
-            <span class="description">${this.description}</span>
+            <p class="note-desc">${this.description}</p>
         `);
 
         
@@ -217,6 +220,7 @@ function gotData(data) {
             place_data.name,
             place_data.description,
             place_data.image,
+            place_data.dollarRange,
             i,
             keys.length
         );

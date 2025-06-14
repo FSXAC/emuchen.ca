@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Jersey+10&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Jersey+10&display=swap" rel="stylesheet">
 
 <script src="https://cdn.jsdelivr.net/npm/p5@1.11.8/lib/p5.min.js"></script>
 <style>
@@ -77,6 +77,32 @@ div.note .note-title .scrolling-text {
     100% {
         transform: translateX(calc(-1 * var(--scroll-distance)));
     }
+}
+
+div.note .note-desc {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    margin: 0;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: #343a40;
+
+    /* Allow text to wrap to new line, but do not allow text to overflow vertically */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+div.note .note-dollar-range {
+    font-family: 'jersey 10', sans-serif;
+    font-size: 20px;
+    color: #fff;
+    position: absolute;
+    padding-left: 10px;
+    top: 0;
+    
+    /* outline or shadow */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
 }
 
 body {
