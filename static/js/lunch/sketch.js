@@ -166,6 +166,9 @@ class Note {
             if (selected_places.length == lunch_places_note_list.length) {
                 // remove the disabled class from #check-all
                 select('#check-all').addClass('disabled');
+            } else {
+                // add the disabled class to #check-all
+                select('#check-all').removeClass('disabled');
             }
         });
     }
@@ -397,6 +400,61 @@ function setup() {
     // for (let i = 0; i < 12; i++) {
     //     emojiParticles.push(new EmojiParticle());
     // }
+
+    // Add event listener for the "Check All" button
+    select('#check-all').mousePressed(() => {
+        // Check all notes
+        lunch_places_note_list.forEach(note => {
+            note.setSelected(true);
+        });
+        selected_places = lunch_places_note_list.map(note => note.name);
+        select('#uncheck-all').removeClass('disabled');
+        select('#submit').removeClass('disabled');
+        select('#check-all').addClass('disabled'); // Disable check all button
+    });
+
+    // Add event listener for the "Uncheck All" button
+    let uncheckAllHelperFunction = () => {
+        // Uncheck all notes
+        lunch_places_note_list.forEach(note => {
+            note.setSelected(false);
+        });
+        selected_places = [];
+        select('#uncheck-all').addClass('disabled');
+        select('#submit').addClass('disabled');
+        select('#check-all').removeClass('disabled'); // Enable check all button
+    }
+
+    select('#uncheck-all').mousePressed(uncheckAllHelperFunction);
+
+    // Add event listener for the "Submit" button
+    select('#submit').mousePressed(() => {
+        if (selected_places.length > 0) {
+            // Send the selected places to the server
+            console.log(`Submitting selected places: ${selected_places.join(', ')}`);
+            fetch('/lunch/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ places: selected_places })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Submission successful:', data);
+                // Optionally, you can reset the selection or show a success message
+            })
+            .catch(error => {
+                console.error('Error submitting places:', error);
+            });
+
+            // Reset the selection
+            // TODO: does this need to be done here?
+            uncheckAllHelperFunction();
+        } else {
+            console.warn('No places selected to submit.');
+        }
+    });
 }
 
 function gotData(data) {
