@@ -25,7 +25,10 @@ let thinking_3d_emoji_gif;
 let there_is_more_places = false;
 
 // Draw line
-let draw_line = false;
+let draw_line = true;
+
+// randomize
+let do_randomize = true;
 
 class Note {
     constructor(name, description, image_src, dollarRange, index, total) {
@@ -178,8 +181,10 @@ class Note {
             this.screenPos.y
         );
 
-        // Fade opacity based on z position
+        // Fade opacity based on z position only if not hovering
         this.domElement.style('opacity', map(rotatedZ, -this.sphereRadius, this.sphereRadius, 1, ORBIT_MIN_OPACITY));
+
+        // Set z-index based on z position
         this.domElement.style('z-index', Math.floor(map(rotatedZ, -this.sphereRadius, this.sphereRadius, ORBIT_Z_INDEX_MAX, ORBIT_Z_INDEX_MIN)));
 
         // Set scale transform based on distance
@@ -214,6 +219,11 @@ function gotData(data) {
     // Get the keys from the lunch_places object
     let keys = Object.keys(lunch_places);
 
+    // If randomization is enabled, shuffle the keys
+    if (do_randomize) {
+        keys = keys.sort(() => Math.random() - 0.5);
+    }
+
     // Limit the number of notes to MAX_NOTES_ON_SCREEN
     if (keys.length > MAX_NOTES_ON_SCREEN) {
         keys = keys.slice(0, MAX_NOTES_ON_SCREEN);
@@ -240,7 +250,7 @@ function errData(error) {
 }
 
 function draw() {
-    background(220);
+    background(200);
     // Update and animate all notes
 
 
