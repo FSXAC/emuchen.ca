@@ -1,18 +1,17 @@
-
 // APP Knobs
 // Orbit animation speed
-const ORBIT_ANIMATION_SPEED = 0.75;
+const ORBIT_ANIMATION_SPEED = 0.001;
 
 // radius of the orbit sphere
 const ORBIT_RADIUS = 240;
 
-const ORBIT_FALLOFF_FACTOR = 0.5;
+const ORBIT_MIN_OPACITY = 0.65;
 const ORBIT_Z_INDEX_MIN = 50;
 const ORBIT_Z_INDEX_MAX = 100;
 
 // NOTE PROPERTIES
 const NOTE_WIDTH = 180; // width of each note
-const NOTE_HEIGHT = 120; // height of each note
+const NOTE_HEIGHT = 180; // height of each note
 
 // GLOBAL PROPERTIES
 const MAX_NOTES_ON_SCREEN = 12;
@@ -25,10 +24,15 @@ let thinking_3d_emoji_gif;
 // Flag to indicate if we're capping the number of notes to max
 let there_is_more_places = false;
 
+// Draw line
+let draw_line = false;
+
 class Note {
-    constructor(name, description, index, total) {
+    constructor(name, description, image_src, index, total) {
         this.name = name;
         this.description = description;
+        this.image_src = image_src
+
         this.selected = false;
         
         // Sphere parameters
@@ -66,18 +70,39 @@ class Note {
         // Create the DOM element (initially placed at 0,0; will update in draw)
         this.domElement = createDiv(this.name);
         this.domElement.addClass('note');
-        this.domElement.style('background-color', '#f0f0f0');
-        this.domElement.style('padding', '10px');
-        this.domElement.style('border', '1px solid #ccc');
 
         // Set size to all the same
         this.domElement.size(NOTE_WIDTH, NOTE_HEIGHT);
 
         // Set inner HTML with a template
         this.domElement.html(`
-            <strong>${this.name}</strong><br>
+            <div class="note-image" style="background-image: url('/static/${this.image_src}')"></div>
+            <br>
+            <p class="note-title"><span class="scrolling-text">${this.name}</span></p>
             <span class="description">${this.description}</span>
         `);
+
+        
+        // When creating a new card title
+        // If the title is too long, add a marquee effect
+        let containerWidth = this.domElement.elt.clientWidth;
+        let spanElement = this.domElement.elt.querySelector('.note-title .scrolling-text');
+        let titleWidth = spanElement.offsetWidth;
+
+        if (titleWidth > containerWidth) {
+
+            // FIXME: idk why -80 is needed, but it works
+            const distance = titleWidth - containerWidth - 80;
+            spanElement.style.setProperty('--scroll-distance', `${distance}px`);
+
+            // Adjust speed if needed (larger denominator = faster speed)
+            const duration = distance / 30;
+
+            spanElement.style.animation = `marquee ${duration}s linear infinite alternate`;
+        } else {
+            // If the title fits, remove the marquee animation
+            spanElement.style.animation = 'none';
+        }
         
         // Add a click event to the note
         this.domElement.mousePressed(() => {
@@ -93,6 +118,14 @@ class Note {
     }
 
     update() {
+
+        if (ORBIT_ANIMATION_SPEED === 0) {
+            // If animation speed is 0, just set the position based on basePos
+            this.screenPos.x = width / 2 + this.basePos.x;
+            this.screenPos.y = height / 2 + this.basePos.y;
+            this.domElement.position(this.screenPos.x, this.screenPos.y);
+            return; // No need to animate
+        }
 
         // Animation: rotate around the Y-axis over time
         let angle = frameCount * 0.01 * ORBIT_ANIMATION_SPEED;
@@ -136,8 +169,12 @@ class Note {
         );
 
         // Fade opacity based on z position
-        this.domElement.style('opacity', map(rotatedZ, -this.sphereRadius, this.sphereRadius, 1, (1 - ORBIT_FALLOFF_FACTOR)));
+        this.domElement.style('opacity', map(rotatedZ, -this.sphereRadius, this.sphereRadius, 1, ORBIT_MIN_OPACITY));
         this.domElement.style('z-index', Math.floor(map(rotatedZ, -this.sphereRadius, this.sphereRadius, ORBIT_Z_INDEX_MAX, ORBIT_Z_INDEX_MIN)));
+
+        // Set scale transform based on distance
+        let scaleTransform = `scale(${Math.pow(scale, 0.35)})`; // Adjust scale for better visibility
+        this.domElement.style('transform', scaleTransform);
     }
 }
 function setup() {
@@ -152,7 +189,7 @@ function setup() {
     thinking_3d_emoji_gif = createImg(thinking3DEmojiURL, 'Thinking Emoji');
 
     // Display the thinking emoji GIF at the center
-    thinking_3d_emoji_gif.position(width / 2 - 50, height / 2 + 50);
+    thinking_3d_emoji_gif.position(width / 2 - 50, height / 2 - 50);
     thinking_3d_emoji_gif.size(100, 100);
     thinking_3d_emoji_gif.style('z-index', (ORBIT_Z_INDEX_MAX + ORBIT_Z_INDEX_MIN) / 2);
 }
@@ -176,7 +213,13 @@ function gotData(data) {
     // Create notes along a sphere for each lunch place
     for (let i = 0; i < keys.length; i++) {
         let place_data = lunch_places[keys[i]];
-        let new_note = new Note(place_data.name, place_data.description, i, keys.length);
+        let new_note = new Note(
+            place_data.name,
+            place_data.description,
+            place_data.image,
+            i,
+            keys.length
+        );
         lunch_places_note_list.push(new_note);
     }
 }
@@ -188,23 +231,21 @@ function errData(error) {
 function draw() {
     background(220);
     // Update and animate all notes
+
+
     for (let note of lunch_places_note_list) {
         note.update();
 
         // draw a line to the center of the canvas
-        stroke(150);
-
-        // There's a weird offset we need to
-        const weirdOffset = { x: 2, y: 100 };
-        // line(width / 2, height / 2, note.screenPos.x, note.screenPos.y - 85);
-
-        stroke(120, 150);
-        line(
-            width / 2,
-            height / 2,
-            note.screenPos.x + weirdOffset.x + NOTE_WIDTH / 2,
-            note.screenPos.y - weirdOffset.y + NOTE_HEIGHT / 2
-        );
+        if (draw_line) {
+            stroke(120, 150);
+            line(
+                width / 2,
+                height / 2,
+                note.screenPos.x + NOTE_WIDTH / 2,
+                note.screenPos.y + NOTE_HEIGHT / 2
+            );
+        }
     }
 
     if (there_is_more_places) {
@@ -221,5 +262,5 @@ function windowResized() {
     }
 
     // Reposition the thinking emoji GIF
-    thinking_3d_emoji_gif.position(width / 2 - 50, height / 2 + 50);
+    thinking_3d_emoji_gif.position(width / 2 - 50, height / 2 - 50);
 }
