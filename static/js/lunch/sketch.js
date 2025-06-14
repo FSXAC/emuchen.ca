@@ -15,6 +15,7 @@ const NOTE_HEIGHT = 180; // height of each note
 
 // GLOBAL PROPERTIES
 const MAX_NOTES_ON_SCREEN = 9;
+const MIN_NOTES_ON_SCREEN = 3; // minimum number of notes to display
 
 // GLOBAL VARIABLES
 let lunch_places = {};
@@ -242,6 +243,14 @@ function setup() {
     thinking_3d_emoji_gif.size(100, 100);
     thinking_3d_emoji_gif.style('z-index', (ORBIT_Z_INDEX_MAX + ORBIT_Z_INDEX_MIN) / 2);
 
+    // Add squishy bounce interaction on click
+    thinking_3d_emoji_gif.mouseClicked(() => {
+        thinking_3d_emoji_gif.addClass('squish');
+    });
+    thinking_3d_emoji_gif.elt.addEventListener('animationend', () => {
+        thinking_3d_emoji_gif.removeClass('squish');
+    });
+    
     // attach event handler for search box input tag
     search_box = select('#search-box');
     search_box.input(() => {
@@ -253,8 +262,23 @@ function setup() {
             let place = lunch_places[key];
             // Check if the name or tags contain the search term
             return place.name.toLowerCase().includes(search_term) ||
-                   (place.tags && place.tags.some(tag => tag.toLowerCase().includes(search_term)));
+                   (place.tags && place.tags.some(tag => tag.toLowerCase().includes(search_term))) ||
+                   (place.description && place.description.toLowerCase().includes(search_term));
         });
+
+        // If none or only one place, add more until minimum is reached
+        if (lunch_places_filtered.length < MIN_NOTES_ON_SCREEN) {
+            console.log(`Not enough places found (${lunch_places_filtered.length}), adding more...`);
+            let all_keys = Object.keys(lunch_places);
+            // Shuffle the keys to get random places
+            all_keys = all_keys.sort(() => Math.random() - 0.5);
+            // Add more until we reach the minimum
+            for (let i = 0; i <= MIN_NOTES_ON_SCREEN - lunch_places_filtered.length; i++) {
+                if (i < all_keys.length) {
+                    lunch_places_filtered.push(all_keys[i]);
+                }
+            }
+        }
 
         console.log(`Filtered places: ${lunch_places_filtered.length}`);
 

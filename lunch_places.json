@@ -110,5 +110,33 @@
         "description": "Japanese/french/italian fusion",
         "tags": ["fusion", "japanese", "pasta", "desserts"],
         "dollarRange": "$$"
+    },
+    {
+        "name": "Tendon Kohaku",
+        "image": "img/lunch/places/tendon_kohaku.jpg",
+        "description": "Japanese tempura rice bowls",
+        "tags": ["tempura", "rice bowls", "japanese", "curry"],
+        "dollarRange": "$$"
+    },
+    {
+        "name": "Oretachi Curry",
+        "image": "img/lunch/places/oretachi_curry.jpg",
+        "description": "Japanese curry restaurant",
+        "tags": ["curry", "japanese", "rice"],
+        "dollarRange": "$$"
+    },
+    {
+        "name": "Pho Zen",
+        "image": "img/lunch/places/pho_zen.jpg",
+        "description": "Vietnamese pho restaurant",
+        "tags": ["pho", "noodles", "soup"],
+        "dollarRange": "$"
+    },
+    {
+        "name": "Sushi Mura",
+        "image": "img/lunch/places/sushi_mura.jpg",
+        "description": "Japanese sushi and sashimi",
+        "tags": ["sushi", "sashimi", "japanese"],
+        "dollarRange": "$$"
     }
 ]
