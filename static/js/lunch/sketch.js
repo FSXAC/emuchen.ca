@@ -205,6 +205,26 @@ class Note {
     }
 }
 
+// Add the helper function to create notes from given keys
+function createNotesFromKeys(keys) {
+    // Remove old note DOM elements
+    lunch_places_note_list.forEach(note => note.domElement.remove());
+    lunch_places_note_list = [];
+    
+    keys.forEach((key, index) => {
+        let place_data = lunch_places[key];
+        let new_note = new Note(
+            place_data.name,
+            place_data.description,
+            place_data.image,
+            place_data.dollarRange,
+            place_data.tags,
+            index,
+            keys.length
+        );
+        lunch_places_note_list.push(new_note);
+    });
+}
 
 function setup() {
     // createCanvas(1200, 800);
@@ -238,14 +258,6 @@ function setup() {
 
         console.log(`Filtered places: ${lunch_places_filtered.length}`);
 
-        // Destroy all existing note DOM elements
-        for (let note of lunch_places_note_list) {
-            note.domElement.remove();
-        }
-
-        // Clear the current note list
-        lunch_places_note_list = [];
-
         // Limit and randomize the filtered places if needed
         if (lunch_places_filtered.length > MAX_NOTES_ON_SCREEN) {
             lunch_places_filtered = lunch_places_filtered.slice(0, MAX_NOTES_ON_SCREEN);
@@ -259,20 +271,8 @@ function setup() {
             lunch_places_filtered = lunch_places_filtered.sort(() => Math.random() - 0.5);
         }
 
-        // Create notes for the filtered places
-        for (let i = 0; i < lunch_places_filtered.length; i++) {
-            let place_data = lunch_places[lunch_places_filtered[i]];
-            let new_note = new Note(
-                place_data.name,
-                place_data.description,
-                place_data.image,
-                place_data.dollarRange,
-                place_data.tags,
-                i,
-                lunch_places_filtered.length
-            );
-            lunch_places_note_list.push(new_note);
-        }
+        // Replace manual note creation with helper call
+        createNotesFromKeys(lunch_places_filtered);
     });
 }
 
@@ -297,20 +297,8 @@ function gotData(data) {
         there_is_more_places = true; // Indicate that there are more places than we are displaying
     }
 
-    // Create notes along a sphere for each lunch place
-    for (let i = 0; i < keys.length; i++) {
-        let place_data = lunch_places[keys[i]];
-        let new_note = new Note(
-            place_data.name,
-            place_data.description,
-            place_data.image,
-            place_data.dollarRange,
-            place_data.tags,
-            i,
-            keys.length
-        );
-        lunch_places_note_list.push(new_note);
-    }
+    // Replace note instantiation loop with helper call
+    createNotesFromKeys(keys);
 }
 
 function errData(error) {
