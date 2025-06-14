@@ -96,5 +96,19 @@
         "description": "Chinese hot pot restaurant",
         "tags": ["hot pot", "chinese", "soup"],
         "dollarRange": "$$"
+    },
+    {
+        "name": "Costco Food Court",
+        "image": "img/lunch/places/costco_food_court.jpg",
+        "description": "Costco food court with pizza and hot dogs",
+        "tags": ["pizza", "hot dogs", "fast food"],
+        "dollarRange": "$"
+    },
+    {
+        "name": "Cafe de l'Orangerie",
+        "image": "img/lunch/places/cafe_de_lorangerie.jpg",
+        "description": "Japanese/french/italian fusion",
+        "tags": ["fusion", "japanese", "pasta", "desserts"],
+        "dollarRange": "$$"
     }
 ]
