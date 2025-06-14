@@ -1,22 +1,79 @@
 [
-    {"name": "The Lunch Lady"},
-    {"name": "Jolibee"},
-    {"name": "Wendy's"},
-    {"name": "Pho 37"},
-    {"name": "The Dosa Hub"},
-    {"name": "Dylan's Diner"},
-    {"name": "Kinton Ramen"},
-    {"name": "Senpoutei"},
-    {"name": "Saku"},
-    {"name": "Irush Pub"},
-    {"name": "The Greenhouse"},
-    {"name": "Sushi Time"},
-    {"name": "Curry House"},
-    {"name": "Taco Haven"},
-    {"name": "Pasta Palace"},
-    {"name": "Salad Station"},
-    {"name": "Burger Barn"},
-    {"name": "Pizza Paradise"},
-    {"name": "Banh Mi Bistro"},
-    {"name": "Dim Sum Delight"}
+    {
+        "name": "Jolibee",
+        "image": "img/lunch/places/jolibee.jpg",
+        "description": "filipino fast food",
+        "tags": ["fried chicken", "spaghetti", "fast food"],
+        "dollarRange": "$"
+    },
+    {
+        "name": "Wendy's",
+        "image": "img/lunch/places/wendys.jpg",
+        "description": "fast food chain",
+        "tags": ["burgers", "fries", "fast food"],
+        "dollarRange": "$"
+    },
+    {
+        "name": "Pho 37",
+        "image": "img/lunch/places/pho_37.jpg",
+        "description": "Vietnamese pho restaurant",
+        "tags": ["pho", "noodles", "soup"],
+        "dollarRange": "$"
+    },
+    {
+        "name": "The Dosa Hub",
+        "image": "img/lunch/places/dosa_hub.jpg",
+        "description": "South Indian cuisine",
+        "tags": ["dosa", "bryani", "curry"],
+        "dollarRange": "$"
+    },
+    {
+        "name": "Dylan's",
+        "image": "img/lunch/places/dylans.jpg",
+        "description": "casual dining with a variety of dishes",
+        "tags": ["burgers", "salads", "sandwiches"],
+        "dollarRange": "$$"
+    },
+    {
+        "name": "Kinton Ramen",
+        "image": "img/lunch/places/kinton_ramen.jpg",
+        "description": "Japanese ramen restaurant",
+        "tags": ["ramen", "noodles", "japanese"],
+        "dollarRange": "$$"
+    },
+    {
+        "name": "Tonton Sushi",
+        "image": "img/lunch/places/default.jpg",
+        "description": "Japanese sushi and sashimi and korean dishes",
+        "tags": ["sushi", "sashimi", "japanese", "korean"],
+        "dollarRange": "$$"
+    },
+    {
+        "name": "Senpoutei",
+        "image": "img/lunch/places/senpoutei.jpg",
+        "description": "Japanese ramen and izakaya",
+        "tags": ["ramen", "izakaya", "japanese"],
+        "dollarRange": "$$"
+    },
+    {
+        "name": "Saku",
+        "image": "img/lunch/places/saku.jpg",
+        "description": "Katsudon and curry",
+        "tags": ["katsudon", "curry", "japanese"],
+        "dollarRange": "$$"
+    },
+    {
+        "name": "Dublin Crossing",
+        "image": "img/lunch/places/dublin_crossing.jpg",
+        "description": "Irish pub with a variety of dishes",
+        "tags": ["pub", "irish", "burgers", "fish and chips"],
+        "dollarRange": "$$"
+    },
+    {
+        "name": "Oz Chicken",
+        "image": "img/lunch/places/oz_chicken.jpg",
+        "description": "kroean fried chicken",
+        "tags": ["fried chicken", "korean", "spicy"],
+        "dollarRange": "$$"
+    }
 ]
