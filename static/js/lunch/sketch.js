@@ -30,6 +30,9 @@ let draw_line = true;
 // randomize
 let do_randomize = true;
 
+// Search box
+let search_box;
+
 class Note {
     constructor(name, description, image_src, dollarRange, tags, index, total) {
         this.name = name;
@@ -201,6 +204,8 @@ class Note {
         this.domElement.style('transform', scaleTransform);
     }
 }
+
+
 function setup() {
     // createCanvas(1200, 800);
     createCanvas(windowWidth, windowHeight);
@@ -216,6 +221,17 @@ function setup() {
     thinking_3d_emoji_gif.position(width / 2 - 50, height / 2 - 50);
     thinking_3d_emoji_gif.size(100, 100);
     thinking_3d_emoji_gif.style('z-index', (ORBIT_Z_INDEX_MAX + ORBIT_Z_INDEX_MIN) / 2);
+
+    // Create a search box
+    // search_box = createInput('');
+    // search_box.addClass('search-box');
+    // search_box.attribute('placeholder', 'Search lunch places...');
+    // search_box.position(20, 20);
+    // search_box.size(200, 30);
+    // search_box.input(() => {
+    //     let query = search_box.value().toLowerCase();
+    //     console.log(`Searching for: ${query}`);
+    // });
 }
 
 function gotData(data) {

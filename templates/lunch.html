@@ -220,7 +220,43 @@ body {
   initial-value: 135deg;
 }
 
+/* Minimalistic search box styles with an icon */
+.search-box {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 400px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #343a40;
+    /* border-radius: 20px; */
+    font-family: 'Jersey 10', sans-serif;
+}
 
+.search-box .search-icon {
+    font-size: 28px;
+    margin-right: 8px;
+    color: #343a40;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 5px;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 32px;
+    color: #343a40;
+}
+
+.search-box input:focus {
+    background: transparent;
+    box-shadow: none;
+}
 </style>
 </head>
 <body>
@@ -229,5 +265,9 @@ body {
 
     </script>
     <script src="{{ url_for('static', filename='js/lunch/sketch.js') }}"></script>
+    <div class="search-box">
+        <span class="search-icon">&#128269;</span>
+        <input type="text" id="searchInput" class="form-control" placeholder="Where to eat?">
+    </div>
 </body>
 </html>
