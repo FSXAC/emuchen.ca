@@ -1,10 +1,5 @@
-let lunch_places = {};
-let lunch_places_note_list = [];
-
-let thinking_3d_emoji_gif;
 
 // APP Knobs
-
 // Orbit animation speed
 const ORBIT_ANIMATION_SPEED = 0.75;
 
@@ -14,6 +9,21 @@ const ORBIT_RADIUS = 240;
 const ORBIT_FALLOFF_FACTOR = 0.5;
 const ORBIT_Z_INDEX_MIN = 50;
 const ORBIT_Z_INDEX_MAX = 100;
+
+// NOTE PROPERTIES
+const NOTE_WIDTH = 180; // width of each note
+const NOTE_HEIGHT = 120; // height of each note
+
+// GLOBAL PROPERTIES
+const MAX_NOTES_ON_SCREEN = 12;
+
+// GLOBAL VARIABLES
+let lunch_places = {};
+let lunch_places_note_list = [];
+let thinking_3d_emoji_gif;
+
+// Flag to indicate if we're capping the number of notes to max
+let there_is_more_places = false;
 
 class Note {
     constructor(name, description, index, total) {
@@ -61,8 +71,7 @@ class Note {
         this.domElement.style('border', '1px solid #ccc');
 
         // Set size to all the same
-        this.domElement.style('width', '180px');
-        this.domElement.style('height', '120px');
+        this.domElement.size(NOTE_WIDTH, NOTE_HEIGHT);
 
         // Set inner HTML with a template
         this.domElement.html(`
@@ -131,7 +140,6 @@ class Note {
         this.domElement.style('z-index', Math.floor(map(rotatedZ, -this.sphereRadius, this.sphereRadius, ORBIT_Z_INDEX_MAX, ORBIT_Z_INDEX_MIN)));
     }
 }
-
 function setup() {
     // createCanvas(1200, 800);
     createCanvas(windowWidth, windowHeight);
@@ -139,7 +147,10 @@ function setup() {
     loadJSON('/lunch/places', gotData, errData);
 
     // Load the thinking emoji GIF
+
+    // URL is defined in the template HTML file
     thinking_3d_emoji_gif = createImg(thinking3DEmojiURL, 'Thinking Emoji');
+
     // Display the thinking emoji GIF at the center
     thinking_3d_emoji_gif.position(width / 2 - 50, height / 2 + 50);
     thinking_3d_emoji_gif.size(100, 100);
@@ -149,14 +160,24 @@ function setup() {
 function gotData(data) {
     lunch_places = data;
     console.log(lunch_places);
+
+    // Initialize the lunch places note list
+    lunch_places_note_list = [];
+
+    // Get the keys from the lunch_places object
     let keys = Object.keys(lunch_places);
+
+    // Limit the number of notes to MAX_NOTES_ON_SCREEN
+    if (keys.length > MAX_NOTES_ON_SCREEN) {
+        keys = keys.slice(0, MAX_NOTES_ON_SCREEN);
+        there_is_more_places = true; // Indicate that there are more places than we are displaying
+    }
+
     // Create notes along a sphere for each lunch place
     for (let i = 0; i < keys.length; i++) {
         let place_data = lunch_places[keys[i]];
         let new_note = new Note(place_data.name, place_data.description, i, keys.length);
         lunch_places_note_list.push(new_note);
-
-        // break; // DEBUG
     }
 }
 
@@ -172,7 +193,22 @@ function draw() {
 
         // draw a line to the center of the canvas
         stroke(150);
-        line(width / 2, height / 2, note.screenPos.x, note.screenPos.y - 85);
+
+        // There's a weird offset we need to
+        const weirdOffset = { x: 2, y: 100 };
+        // line(width / 2, height / 2, note.screenPos.x, note.screenPos.y - 85);
+
+        stroke(120, 150);
+        line(
+            width / 2,
+            height / 2,
+            note.screenPos.x + weirdOffset.x + NOTE_WIDTH / 2,
+            note.screenPos.y - weirdOffset.y + NOTE_HEIGHT / 2
+        );
+    }
+
+    if (there_is_more_places) {
+        // do nothing for now
     }
 }
 
