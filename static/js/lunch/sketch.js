@@ -222,16 +222,58 @@ function setup() {
     thinking_3d_emoji_gif.size(100, 100);
     thinking_3d_emoji_gif.style('z-index', (ORBIT_Z_INDEX_MAX + ORBIT_Z_INDEX_MIN) / 2);
 
-    // Create a search box
-    // search_box = createInput('');
-    // search_box.addClass('search-box');
-    // search_box.attribute('placeholder', 'Search lunch places...');
-    // search_box.position(20, 20);
-    // search_box.size(200, 30);
-    // search_box.input(() => {
-    //     let query = search_box.value().toLowerCase();
-    //     console.log(`Searching for: ${query}`);
-    // });
+    // attach event handler for search box input tag
+    search_box = select('#search-box');
+    search_box.input(() => {
+        let search_term = search_box.value().toLowerCase();
+        console.log(`Searching for: ${search_term}`);
+
+        // Filter on keys and tags from lunch_places
+        lunch_places_filtered = Object.keys(lunch_places).filter(key => {
+            let place = lunch_places[key];
+            // Check if the name or tags contain the search term
+            return place.name.toLowerCase().includes(search_term) ||
+                   (place.tags && place.tags.some(tag => tag.toLowerCase().includes(search_term)));
+        });
+
+        console.log(`Filtered places: ${lunch_places_filtered.length}`);
+
+        // Destroy all existing note DOM elements
+        for (let note of lunch_places_note_list) {
+            note.domElement.remove();
+        }
+
+        // Clear the current note list
+        lunch_places_note_list = [];
+
+        // Limit and randomize the filtered places if needed
+        if (lunch_places_filtered.length > MAX_NOTES_ON_SCREEN) {
+            lunch_places_filtered = lunch_places_filtered.slice(0, MAX_NOTES_ON_SCREEN);
+            there_is_more_places = true; // Indicate that there are more places than we are displaying
+        } else {
+            there_is_more_places = false; // No more places than we are displaying
+        }
+
+        // If randomization is enabled, shuffle the filtered places
+        if (do_randomize) {
+            lunch_places_filtered = lunch_places_filtered.sort(() => Math.random() - 0.5);
+        }
+
+        // Create notes for the filtered places
+        for (let i = 0; i < lunch_places_filtered.length; i++) {
+            let place_data = lunch_places[lunch_places_filtered[i]];
+            let new_note = new Note(
+                place_data.name,
+                place_data.description,
+                place_data.image,
+                place_data.dollarRange,
+                place_data.tags,
+                i,
+                lunch_places_filtered.length
+            );
+            lunch_places_note_list.push(new_note);
+        }
+    });
 }
 
 function gotData(data) {

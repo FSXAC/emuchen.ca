@@ -221,7 +221,7 @@ body {
 }
 
 /* Minimalistic search box styles with an icon */
-.search-box {
+.search-box-container {
     position: absolute;
     top: 10px;
     left: 50%;
@@ -237,13 +237,13 @@ body {
     font-family: 'Jersey 10', sans-serif;
 }
 
-.search-box .search-icon {
+.search-box-container .search-icon {
     font-size: 28px;
     margin-right: 8px;
     color: #343a40;
 }
 
-.search-box input {
+.search-box-container input {
     width: 100%;
     padding: 5px;
     border: none;
@@ -253,7 +253,7 @@ body {
     color: #343a40;
 }
 
-.search-box input:focus {
+.search-box-container input:focus {
     background: transparent;
     box-shadow: none;
 }
@@ -265,9 +265,9 @@ body {
 
     </script>
     <script src="{{ url_for('static', filename='js/lunch/sketch.js') }}"></script>
-    <div class="search-box">
+    <div class="search-box-container">
         <span class="search-icon">&#128269;</span>
-        <input type="text" id="searchInput" class="form-control" placeholder="Where to eat?">
+        <input id="search-box" type="text" id="searchInput" class="form-control" placeholder="Where to eat?">
     </div>
 </body>
 </html>
