@@ -222,5 +222,14 @@
             "japanese"
         ],
         "dollarRange": "$$"
+    },
+    {
+        "name": "test4",
+        "image": "img/lunch/places/default.jpg",
+        "description": "test4",
+        "tags": [
+            ""
+        ],
+        "dollarRange": "$"
     }
 ]
