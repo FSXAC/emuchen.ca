@@ -441,8 +441,9 @@ function setup() {
     // Add event listener for the "Submit" button
     select('#submit').mousePressed(() => {
 
+        const today = new Date().toDateString();
+
         if (!OVERRIDE_ALREADY_VOTED) {
-            const today = new Date().toDateString();
             if (localStorage.getItem('lunch_voted_date') === today) {
                 console.warn('User has already voted today.');
 
