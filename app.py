@@ -17,6 +17,10 @@ def lunch_app():
 def lunch_new():
     return render_template('lunch_new.html')
 
+@app.route('/lunch_vote')
+def lunch_vote():
+    return render_template('lunch_vote.html')
+
 # Error handling routes
 @app.errorhandler(404)
 def page_not_found(e):
@@ -29,6 +33,15 @@ def lunch_places():
     with open('lunch_places.json', 'r') as file:
         places = file.read()
     return places, 200, {'Content-Type': 'application/json'}
+
+@app.route('/lunch/votes', methods=['GET'])
+def lunch_votes():
+    try:
+        with open('lunch_places_votes.json', 'r') as file:
+            votes = json.load(file)
+        return votes, 200
+    except FileNotFoundError:
+        return jsonify({}), 200    
 
 # POST route to submit a list of lunch places
 @app.route('/lunch/submit', methods=['POST'])

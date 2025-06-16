@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lunch Vote Results</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Jersey+10&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/p5@1.11.8/lib/p5.min.js"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/lunch.css') }}">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Lunch Vote Results</h1>
+        <canvas id="voteChart"></canvas>
+    </div>
+<script>
+fetch('/lunch/votes')
+  .then(response => response.json())
+  .then(data => {
+      const labels = Object.keys(data);
+      const counts = Object.values(data);
+
+      new Chart(document.getElementById('voteChart'), {
+          type: 'bar',
+          data: {
+              labels: labels,
+              datasets: [{
+                  label: 'Votes',
+                  data: counts,
+                  backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                  borderColor: 'rgba(54, 162, 235, 1)',
+                  borderWidth: 1
+              }]
+          },
+          options: {
+              scales: {
+                  y: { beginAtZero: true }
+              }
+          }
+      });
+  })
+  .catch(error => console.error(error));
+</script>
+</body>
+</html>
