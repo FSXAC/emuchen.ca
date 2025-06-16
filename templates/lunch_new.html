@@ -23,7 +23,7 @@
             </div>
             <div class="form-group">
                 <label for="placeImage">Image</label>
-                <input type="file" class="form-control" id="placeImage">
+                <input disabled type="file" class="form-control" id="placeImage">
             </div>
             <div class="form-group">
                 <label for="placeDescription">Description (max 80 chars)</label>
@@ -70,10 +70,10 @@
             nameExistsWarning.style.display = 'none';
         }
 
-        const placeData = {
+        let placeData = {
             name: document.getElementById('placeName').value,
             // For simplicity, just keep file path placeholder. Normally you'd handle file uploads separately.
-            image: document.getElementById('placeImage').value || "img/lunch/places/default.jpg",
+            image: "img/lunch/places/default.jpg",
             description: document.getElementById('placeDescription').value,
             tags: document.getElementById('placeTags').value.split(',').map(t => t.trim()),
             dollarRange: document.getElementById('placeDollarRange').value
@@ -89,10 +89,7 @@
         .then(msg => {
             alert(msg.message || msg.error);
             if (!msg.error) {
-                nameInput.value = '';
-                document.getElementById('placeDescription').value = '';
-                document.getElementById('placeTags').value = '';
-                document.getElementById('placeDollarRange').value = '$';
+                window.location.href = '/lunch';
             }
         });
     });
