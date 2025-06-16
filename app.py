@@ -13,6 +13,10 @@ def landing_page():
 def lunch_app():
     return render_template('lunch.html')
 
+@app.route('/lunch_new')
+def lunch_new():
+    return render_template('lunch_new.html')
+
 # Error handling routes
 @app.errorhandler(404)
 def page_not_found(e):
@@ -86,4 +90,4 @@ def new_lunch_place():
     return jsonify({"message": "New lunch place added"}), 200
 
 if __name__ == '__main__':
-    app.run(debug=True, port=8000, host="localhost")
+    app.run(debug=True)

@@ -3,140 +3,224 @@
         "name": "Jolibee",
         "image": "img/lunch/places/jolibee.jpg",
         "description": "filipino fast food",
-        "tags": ["fried chicken", "spaghetti", "fast food"],
+        "tags": [
+            "fried chicken",
+            "spaghetti",
+            "fast food"
+        ],
         "dollarRange": "$"
     },
     {
         "name": "Wendy's",
         "image": "img/lunch/places/wendys.jpg",
         "description": "fast food chain",
-        "tags": ["burgers", "fries", "fast food"],
+        "tags": [
+            "burgers",
+            "fries",
+            "fast food"
+        ],
         "dollarRange": "$"
     },
     {
         "name": "Pho 37",
         "image": "img/lunch/places/pho_37.jpg",
         "description": "Vietnamese pho restaurant",
-        "tags": ["pho", "noodles", "soup"],
+        "tags": [
+            "pho",
+            "noodles",
+            "soup"
+        ],
         "dollarRange": "$"
     },
     {
         "name": "The Dosa Hub",
         "image": "img/lunch/places/dosa_hub.jpg",
         "description": "South Indian cuisine",
-        "tags": ["dosa", "bryani", "curry"],
+        "tags": [
+            "dosa",
+            "bryani",
+            "curry"
+        ],
         "dollarRange": "$"
     },
     {
         "name": "Dylan's",
         "image": "img/lunch/places/dylans.jpg",
         "description": "casual dining with a variety of dishes",
-        "tags": ["burgers", "salads", "sandwiches"],
+        "tags": [
+            "burgers",
+            "salads",
+            "sandwiches"
+        ],
         "dollarRange": "$$"
     },
     {
         "name": "Kinton Ramen",
         "image": "img/lunch/places/kinton_ramen.jpg",
         "description": "Japanese ramen restaurant",
-        "tags": ["ramen", "noodles", "japanese"],
+        "tags": [
+            "ramen",
+            "noodles",
+            "japanese"
+        ],
         "dollarRange": "$$"
     },
     {
         "name": "Tonton Sushi",
         "image": "img/lunch/places/tonton_sushi.jpg",
         "description": "Japanese sushi and sashimi and korean dishes",
-        "tags": ["sushi", "sashimi", "japanese", "korean"],
+        "tags": [
+            "sushi",
+            "sashimi",
+            "japanese",
+            "korean"
+        ],
         "dollarRange": "$$"
     },
     {
         "name": "Senpoutei",
         "image": "img/lunch/places/senpoutei.jpg",
         "description": "Japanese ramen and izakaya",
-        "tags": ["ramen", "izakaya", "japanese"],
+        "tags": [
+            "ramen",
+            "izakaya",
+            "japanese"
+        ],
         "dollarRange": "$$"
     },
     {
         "name": "Saku",
         "image": "img/lunch/places/saku.jpg",
         "description": "Katsudon and curry",
-        "tags": ["katsudon", "curry", "japanese"],
+        "tags": [
+            "katsudon",
+            "curry",
+            "japanese"
+        ],
         "dollarRange": "$$"
     },
     {
         "name": "Dublin Crossing",
         "image": "img/lunch/places/dublin_crossing.jpg",
         "description": "Irish pub with a variety of dishes",
-        "tags": ["pub", "irish", "burgers", "fish and chips"],
+        "tags": [
+            "pub",
+            "irish",
+            "burgers",
+            "fish and chips"
+        ],
         "dollarRange": "$$"
     },
     {
         "name": "Oz Chicken",
         "image": "img/lunch/places/oz_chicken.jpg",
         "description": "kroean fried chicken",
-        "tags": ["fried chicken", "korean", "spicy"],
+        "tags": [
+            "fried chicken",
+            "korean",
+            "spicy"
+        ],
         "dollarRange": "$$"
     },
     {
         "name": "IKEA",
         "image": "img/lunch/places/ikea.jpg",
         "description": "Swedish meatballs and more",
-        "tags": ["meatballs", "fish and chips", "swedish"],
+        "tags": [
+            "meatballs",
+            "fish and chips",
+            "swedish"
+        ],
         "dollarRange": "$"
     },
     {
         "name": "Hokkaido Ramen Santouka",
         "image": "img/lunch/places/hokkaido_ramen_santouka.jpg",
         "description": "Japanese ramen with a rich broth",
-        "tags": ["ramen", "japanese", "noodles"],
+        "tags": [
+            "ramen",
+            "japanese",
+            "noodles"
+        ],
         "dollarRange": "$$"
     },
     {
         "name": "Big Way Hot Pot",
         "image": "img/lunch/places/big_way_hot_pot.jpg",
         "description": "Chinese hot pot restaurant",
-        "tags": ["hot pot", "chinese", "soup"],
+        "tags": [
+            "hot pot",
+            "chinese",
+            "soup"
+        ],
         "dollarRange": "$$"
     },
     {
         "name": "Costco Food Court",
         "image": "img/lunch/places/costco_food_court.jpg",
         "description": "Costco food court with pizza and hot dogs",
-        "tags": ["pizza", "hot dogs", "fast food"],
+        "tags": [
+            "pizza",
+            "hot dogs",
+            "fast food"
+        ],
         "dollarRange": "$"
     },
     {
         "name": "Cafe de l'Orangerie",
         "image": "img/lunch/places/cafe_de_lorangerie.jpg",
         "description": "Japanese/french/italian fusion",
-        "tags": ["fusion", "japanese", "pasta", "desserts"],
+        "tags": [
+            "fusion",
+            "japanese",
+            "pasta",
+            "desserts"
+        ],
         "dollarRange": "$$"
     },
     {
         "name": "Tendon Kohaku",
         "image": "img/lunch/places/tendon_kohaku.jpg",
         "description": "Japanese tempura rice bowls",
-        "tags": ["tempura", "rice bowls", "japanese", "curry"],
+        "tags": [
+            "tempura",
+            "rice bowls",
+            "japanese",
+            "curry"
+        ],
         "dollarRange": "$$"
     },
     {
         "name": "Oretachi Curry",
         "image": "img/lunch/places/oretachi_curry.jpg",
         "description": "Japanese curry restaurant",
-        "tags": ["curry", "japanese", "rice"],
+        "tags": [
+            "curry",
+            "japanese",
+            "rice"
+        ],
         "dollarRange": "$$"
     },
     {
         "name": "Pho Zen",
         "image": "img/lunch/places/pho_zen.jpg",
         "description": "Vietnamese pho restaurant",
-        "tags": ["pho", "noodles", "soup"],
+        "tags": [
+            "pho",
+            "noodles",
+            "soup"
+        ],
         "dollarRange": "$"
     },
     {
         "name": "Sushi Mura",
         "image": "img/lunch/places/sushi_mura.jpg",
         "description": "Japanese sushi and sashimi",
-        "tags": ["sushi", "sashimi", "japanese"],
+        "tags": [
+            "sushi",
+            "sashimi",
+            "japanese"
+        ],
         "dollarRange": "$$"
     }
 ]
