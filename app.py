@@ -54,5 +54,36 @@ def submit_lunch_place():
     else:
         return jsonify({"error": "Invalid JSON format"}), 400
 
+@app.route('/lunch/newplace', methods=['POST'])
+def new_lunch_place():
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "Invalid JSON format"}), 400
+
+    try:
+        with open('lunch_places.json', 'r') as file:
+            places = json.load(file)
+    except FileNotFoundError:
+        places = []
+
+    # Check if place exists
+    if any(p['name'].lower() == data['name'].strip().lower() for p in places):
+        return jsonify({"error": "Place already exists"}), 400
+
+    new_place = {
+        "name": data['name'],
+        "image": data['image'],
+        "description": data['description'],
+        "tags": data['tags'],
+        "dollarRange": data['dollarRange']
+    }
+
+    places.append(new_place)
+
+    with open('lunch_places.json', 'w') as file:
+        json.dump(places, file, indent=4)
+
+    return jsonify({"message": "New lunch place added"}), 200
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=8000, host="localhost")

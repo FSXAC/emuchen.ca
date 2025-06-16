@@ -1,0 +1,3 @@
+{
+  "how do i check which process is using a port": "```bash\nsudo lsof -i :port_number\n```"
+}

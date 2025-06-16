@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>let's go for lunch</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Jersey+10&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/p5@1.11.8/lib/p5.min.js"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/lunch.css') }}">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Add a New Lunch Place</h1>
+        <form id="new-place-form">
+            <div class="form-group">
+                <label for="placeName">Name</label>
+                <input type="text" class="form-control" id="placeName" maxlength="50" placeholder="Enter lunch place name" required>
+                <small id="nameExistsWarning" class="text-danger" style="display:none;">Name already exists!</small>
+            </div>
+            <div class="form-group">
+                <label for="placeImage">Image</label>
+                <input type="file" class="form-control" id="placeImage">
+            </div>
+            <div class="form-group">
+                <label for="placeDescription">Description (max 80 chars)</label>
+                <input type="text" class="form-control" id="placeDescription" maxlength="80" required>
+            </div>
+            <div class="form-group">
+                <label for="placeTags">Tags (comma-separated)</label>
+                <input type="text" class="form-control" id="placeTags" placeholder="e.g. sushi, ramen">
+            </div>
+            <div class="form-group">
+                <label for="placeDollarRange">Dollar Range</label>
+                <select class="form-control" id="placeDollarRange">
+                    <option>$</option>
+                    <option>$$</option>
+                    <option>$$$</option>
+                    <option>$$$$</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+    <script>
+    let existingPlaces = [];
+
+    // Fetch existing places for auto-complete or duplication check
+    fetch('/lunch/places')
+    .then(response => response.json())
+    .then(data => {
+        existingPlaces = data.map(item => item.name.toLowerCase());
+    });
+
+    document.getElementById('new-place-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const nameInput = document.getElementById('placeName');
+        const nameExistsWarning = document.getElementById('nameExistsWarning');
+        const nameValue = nameInput.value.trim().toLowerCase();
+
+        // Simple check for existing name
+        if (existingPlaces.includes(nameValue)) {
+            nameExistsWarning.style.display = 'block';
+            return;
+        } else {
+            nameExistsWarning.style.display = 'none';
+        }
+
+        const placeData = {
+            name: document.getElementById('placeName').value,
+            // For simplicity, just keep file path placeholder. Normally you'd handle file uploads separately.
+            image: document.getElementById('placeImage').value || "img/lunch/places/default.jpg",
+            description: document.getElementById('placeDescription').value,
+            tags: document.getElementById('placeTags').value.split(',').map(t => t.trim()),
+            dollarRange: document.getElementById('placeDollarRange').value
+        };
+
+        // POST new place
+        fetch('/lunch/newplace', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(placeData)
+        })
+        .then(response => response.json())
+        .then(msg => {
+            alert(msg.message || msg.error);
+            if (!msg.error) {
+                nameInput.value = '';
+                document.getElementById('placeDescription').value = '';
+                document.getElementById('placeTags').value = '';
+                document.getElementById('placeDollarRange').value = '$';
+            }
+        });
+    });
+    </script>
+</body>
+</html>
