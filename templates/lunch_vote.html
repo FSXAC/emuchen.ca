@@ -22,6 +22,17 @@
 fetch('/lunch/votes')
   .then(response => response.json())
   .then(data => {
+      // If there's no data or if it's empty, display a 'no votes yet' message
+      if (!data || Object.keys(data).length === 0) {
+          document.getElementById('voteChart').style.display = 'none';
+          const container = document.querySelector('.container.mt-4');
+          const noVotesMsg = document.createElement('p');
+          noVotesMsg.innerHTML = 'No one has voted yet. <a href="/lunch">Go back to vote a lunch place!</a>';
+          container.appendChild(noVotesMsg);
+          return;
+      }
+
+      // Otherwise, display the chart
       const labels = Object.keys(data);
       const counts = Object.values(data);
 
