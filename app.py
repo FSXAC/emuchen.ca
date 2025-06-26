@@ -1,5 +1,6 @@
 from flask import Flask, render_template
 from flask import request, jsonify
+from flask import send_from_directory
 import json
 
 app = Flask(__name__)
@@ -101,6 +102,11 @@ def new_lunch_place():
         json.dump(places, file, indent=4)
 
     return jsonify({"message": "New lunch place added"}), 200
+
+@app.route('/txt/<path:filename>')
+def serve_txt(filename):
+    full_filename = f"{filename}.txt"
+    return send_from_directory('static/txt', full_filename, mimetype='text/plain')
 
 if __name__ == '__main__':
     app.run(debug=True)
